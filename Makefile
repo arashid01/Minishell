@@ -1,18 +1,21 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR)
-
-SRCS =  srcs/main.c
-
-OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+READLINE_DIR = /usr/local/Cellar/readline/8.2.13
+
+CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
+LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
+
+SRCS =  srcs/main.c
+OBJS = $(SRCS:.c=.o)
+
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 
 $(LIBFT):
