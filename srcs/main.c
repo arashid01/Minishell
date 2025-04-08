@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/08 07:02:53 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/08 11:20:52 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,18 @@ int	main()
 		free(line);
 	}
 	rl_clear_history();*/
+	
 	char str[] = "this is a test | to count > how many << tokens";
 	int count = count_tokens(str);
 	ft_putnbr_fd(count, 1);
 	ft_putchar_fd('\n', 1);
+	char **tokens;
+	int i = 0;
+	tokens = tokenize(str);
+	while (tokens[i])
+	{
+		printf("Token[%d]: %s\n", i, tokens[i]);
+		i++;
+	}	
 	return(0);
 }
