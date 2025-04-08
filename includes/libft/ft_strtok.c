@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/08 03:55:05 by amal             ###   ########.fr       */
+/*   Created: 2025/04/08 03:00:11 by amal              #+#    #+#             */
+/*   Updated: 2025/04/08 03:53:59 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	main()
+char	*ft_strtok(char *str, const char *delimiter)
 {
-	char	*line;
-	
-	while (1)
-	{
-		line = readline("minishell$ ");
+	static char	*next;
+	char		*tok_start;
 
-		if (!line)
-		{
-			ft_putstr_fd("exit\n", 1);
-			break;
-		}
-		else
-		{
-			if (*line)
-				add_history(line);
-			ft_putstr_fd("You entered: ", 1);
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			free(line);
-		}
+	if (str)
+		next = str;
+	while (*next && ft_strchr(delimiter, *next))
+		next++;
+	if (*next == '\0')
+		return (NULL);
+	tok_start = next;
+	while (*next && !ft_strchr(delimiter, *next))
+		next++;
+	if (*next != '\0')
+	{
+		*next = '\0';
+		next++;
 	}
-	rl_clear_history();
-	return(0);
+	return (tok_start);
 }
