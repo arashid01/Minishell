@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/10 05:31:37 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 05:51:46 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct s_token
 
 typedef struct	s_cmd
 {
-	char	**args;
-	char	*infile;
-	char	*outfile;
-	int		append;
+	char			**args;
+	char			*infile;
+	char			*outfile;
+	int				append;
+	struct s_cmd	*next;
 }	t_cmd;
 
 int		count_tokens(char *line);
@@ -44,6 +45,7 @@ char	**tokenize(char *line);
 t_token	*build_token_list(char **str_tokens, int count);
 
 t_cmd	*parse_single_command(t_token *tokens, int count);
+t_cmd	*parse_all_commands(t_token *tokens, int count);
 
 void	free_tokens(t_token *tokens, int count);
 void	free_cmd(t_cmd *cmd);
