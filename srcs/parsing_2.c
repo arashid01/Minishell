@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 05:38:25 by amal              #+#    #+#             */
-/*   Updated: 2025/04/10 05:45:12 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 06:22:29 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,15 @@ t_cmd	*parse_all_commands(t_token *tokens, int count)
 		i++;
 	}
 	return (head);
+}
+t_cmd	**parse_input(t_token *tokens, int token_count, int *cmd_count)
+{
+	t_cmd	**cmds;
+
+	cmds = malloc(sizeof(t_cmd *) * 1);
+	if (!cmds)
+		return (NULL);
+	cmds[0] = parse_single_command(tokens, token_count);
+	*cmd_count = 1;
+	return (cmds);
 }

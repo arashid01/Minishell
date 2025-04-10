@@ -10,7 +10,7 @@ CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
 
 SRCS =  srcs/main.c srcs/tokenizing.c srcs/parsing_1.c \
-		srcs/clean_utils.c srcs/parsing_2.c
+		srcs/clean_utils.c srcs/parsing_2.c srcs/execute.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME)

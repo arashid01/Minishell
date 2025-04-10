@@ -6,15 +6,19 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/10 05:51:46 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 06:22:42 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include "libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -46,8 +50,12 @@ t_token	*build_token_list(char **str_tokens, int count);
 
 t_cmd	*parse_single_command(t_token *tokens, int count);
 t_cmd	*parse_all_commands(t_token *tokens, int count);
+t_cmd	**parse_input(t_token *tokens, int token_count, int *cmd_count);
+
+void	execute_command(t_cmd *cmd, char **envp);
 
 void	free_tokens(t_token *tokens, int count);
 void	free_cmd(t_cmd *cmd);
+void	free_cmds(t_cmd **cmds, int count);
 
 #endif

@@ -6,59 +6,41 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/10 05:51:14 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 06:21:24 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
+	(void) argc;
+	(void) argv;
 	char	*line;
 	char	**str_tokens;
 	t_token	*tokens;
-	t_cmd	*cmds;
-	t_cmd	*tmp;
+	t_cmd	**cmds;
+	int		cmd_count;
 	int		token_count;
-
-	line = readline("minishell> ");
-	if (!line)
-		return (0);
-
-	str_tokens = tokenize(line);
-	if (!str_tokens)
-		return (1);
-
-	token_count = 0;
-	while (str_tokens[token_count])
-		token_count++;
-
-	tokens = build_token_list(str_tokens, token_count);
-	if (!tokens)
-		return (1);
-
-	cmds = parse_all_commands(tokens, token_count);
-	tmp = cmds;
-	while (tmp)
+	
+	while (1)
 	{
-		printf("Command:\n");
-		for (int i = 0; tmp->args && tmp->args[i]; i++)
-			printf("  Arg: %s\n", tmp->args[i]);
-		if (tmp->infile)
-			printf("  Infile: %s\n", tmp->infile);
-		if (tmp->outfile)
-			printf("  Outfile: %s (%s)\n", tmp->outfile, tmp->append ? "append" : "overwrite");
-		tmp = tmp->next;
+		line = readline("minishell> ");
+		if (!line)
+			break;
+
+		str_tokens = tokenize(line);
+		token_count = count_tokens(line);
+		tokens = build_token_list(str_tokens, token_count);
+		cmds = parse_input(tokens, token_count, &cmd_count);
+
+		if (cmd_count == 1)
+			execute_command(cmds[0], envp);
 	}
 
 	free(line);
 	free_tokens(tokens, token_count);
-	while (cmds)
-	{
-		tmp = cmds->next;
-		free_cmd(cmds);
-		cmds = tmp;
-	}
+	free_cmds(cmds, cmd_count);
 	return (0);
 }
 
