@@ -6,45 +6,44 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/08 11:20:52 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 05:29:47 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main()
+int	main(void)
 {
-	/*char	*line;
-	
+	char	*line;
+	char	**str_tokens;
+	t_token	*tokens;
+	t_cmd	*cmd;
+	int		count;
+
 	while (1)
 	{
-		line = readline("minishell$ ");
-
+		line = readline("minishell> ");
 		if (!line)
-		{
-			ft_putstr_fd("exit\n", 1);
 			break;
-		}
-		if (*line)
-			add_history(line);
-		ft_putstr_fd("You entered: ", 1);
-		ft_putstr_fd(line, 1);
-		ft_putstr_fd("\n", 1);
+		if (line[0] == '\0')
+			continue;
+
+		str_tokens = tokenize(line);
+		count = count_tokens(line);
+		tokens = build_token_list(str_tokens, count);
+		cmd = parse_single_command(tokens, count);
+
+		printf("Args:\n");
+		for (int i = 0; cmd->args && cmd->args[i]; i++)
+			printf("- %s\n", cmd->args[i]);
+		printf("Infile: %s\n", cmd->infile);
+		printf("Outfile: %s (append: %d)\n", cmd->outfile, cmd->append);
+
+		free_tokens(tokens, count);
+		free(str_tokens);
+		free_cmd(cmd);
 		free(line);
 	}
-	rl_clear_history();*/
-	
-	char str[] = "this is a test | to count > how many << tokens";
-	int count = count_tokens(str);
-	ft_putnbr_fd(count, 1);
-	ft_putchar_fd('\n', 1);
-	char **tokens;
-	int i = 0;
-	tokens = tokenize(str);
-	while (tokens[i])
-	{
-		printf("Token[%d]: %s\n", i, tokens[i]);
-		i++;
-	}	
-	return(0);
+	return (0);
 }
+

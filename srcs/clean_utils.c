@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtok.c                                        :+:      :+:    :+:   */
+/*   clean_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 03:00:11 by amal              #+#    #+#             */
-/*   Updated: 2025/04/08 03:53:59 by amal             ###   ########.fr       */
+/*   Created: 2025/04/10 05:34:54 by amal              #+#    #+#             */
+/*   Updated: 2025/04/10 05:34:55 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strtok(char *str, const char *delimiter)
+void	free_tokens(t_token *tokens, int count)
 {
-	static char	*next;
-	char		*tok_start;
+	int	i;
 
-	if (str)
-		next = str;
-	while (*next && ft_strchr(delimiter, *next))
-		next++;
-	if (*next == '\0')
-		return (NULL);
-	tok_start = next;
-	while (*next && !ft_strchr(delimiter, *next))
-		next++;
-	if (*next != '\0')
+	i = 0;
+	while (i < count)
 	{
-		*next = '\0';
-		next++;
+		free(tokens[i].value);
+		i++;
 	}
-	return (tok_start);
+	free(tokens);
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	int	i = 0;
+
+	while (cmd->args && cmd->args[i])
+	{
+		free(cmd->args[i]);
+		i++;
+	}
+	free(cmd->args);
+	if (cmd->infile)
+		free(cmd->infile);
+	if (cmd->outfile)
+		free(cmd->outfile);
+	free(cmd);
 }

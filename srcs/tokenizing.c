@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizing.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 11:30:43 by amal              #+#    #+#             */
+/*   Updated: 2025/04/10 05:32:28 by amal             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	is_operator(char c)
@@ -74,5 +86,38 @@ char	**tokenize(char *line)
 		}
 	}
 	tokens[j] = NULL;
+	return (tokens);
+}
+
+int	get_token_type(char *str)
+{
+	if (!ft_strncmp(str, "|", 1))
+		return (T_PIPE);
+	if (!ft_strncmp(str, "<", 1))
+		return (T_REDIR_IN);
+	if (!ft_strncmp(str, ">", 1))
+		return (T_REDIR_OUT);
+	if (!ft_strncmp(str, ">>", 2))
+		return (T_REDIR_AP);
+	if (!ft_strncmp(str, "<<", 2))
+		return (T_HEREDOC);
+	return (T_WORD);
+}
+
+t_token	*build_token_list(char **str_tokens, int count)
+{
+	t_token	*tokens;
+	int		i;
+
+	tokens = malloc(sizeof(t_token) * count);
+	if (!tokens)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		tokens[i].value = str_tokens[i];
+		tokens[i].type = get_token_type(str_tokens[i]);
+		i++;
+	}
 	return (tokens);
 }
