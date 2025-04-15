@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/12 09:06:55 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/15 12:14:52 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@
 # include <readline/history.h>
 
 
+char	*expand_var(char **envp, char *var);
 
 #endif
