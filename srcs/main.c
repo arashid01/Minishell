@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/17 11:42:38 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/17 12:09:23 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*save_token(char *start, int len)
 
 	i = 0;
 	token = malloc(sizeof(char) * (len + 1));
-	while (start[i])
+	while (i < len)
 	{
 		token[i] = start[i];
 		i++;
@@ -33,14 +33,14 @@ char	*save_token(char *start, int len)
 	return (token);
 }
 
-// void	print_tokens(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		printf("[%s]\n", token->val);
-// 		token = token->next;
-// 	}
-// }
+void	print_tokens(t_token *token)
+{
+	while (token)
+	{
+		printf("A token: [%s] -> %d \n", token->val, token->type);
+		token = token->next;
+	}
+}
 
 void	save_operator(char *line, int start, int end, t_token **token_list)
 {
@@ -59,9 +59,9 @@ void	save_operator(char *line, int start, int end, t_token **token_list)
 	else if (ft_strncmp(new->val, "<<", 2) == 0)
 		new->type = HEREDOC;
 	else if (new->val[0] == '>')
-		new->type = OVERWRITE;
+		new->type = REDIR_OUT;
 	else if (new->val[0] == '<')
-		new->type = APPEND;
+		new->type = REDIR_IN;
 	else if (new->val[0] == '|')
 		new->type = PIPE;
 	else
@@ -123,8 +123,9 @@ void	tokenize_line(char *line)
 			start = i;
 			if ((line[i] == '>' && line [i + 1] == '>') 
 				|| (line[i] == '<' && line [i + 1] == '<'))
+				i += 2;
+			else
 				i++;
-			i++;
 			save_operator(line, start, i, &token_list);
 		}
 		else
@@ -135,6 +136,7 @@ void	tokenize_line(char *line)
 			save_word(line, start, i, &token_list);
 		}
 	}
+	print_tokens(token_list);
 }
 
 void	init_minishell(char **envp)

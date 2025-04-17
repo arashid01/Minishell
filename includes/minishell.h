@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/17 11:53:19 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/17 11:59:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 
 # define WORD 1 //commands and args
 # define PIPE 2 // |
-# define APPEND 3 // <
-# define OVERWRITE 4 // >
+# define REDIR_IN 3 // <
+# define REDIR_OUT 4 // >
 # define REDIR_APPEND 5 // >>
 # define HEREDOC 6 // <<
 
