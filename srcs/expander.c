@@ -10,7 +10,8 @@ char	*expand_var(char **envp, char *var)
 	var_len = ft_strlen(var);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, var_len) == 0)
+		if ((ft_strncmp(envp[i], var, var_len) == 0) 
+				&& (envp[i][var_len] == '='))
 		{
 			printf("%s is found\n", var);
 			val = ft_strchr(envp[i], '=') + 1;
@@ -20,6 +21,6 @@ char	*expand_var(char **envp, char *var)
 		else
 			i++;
 	}
-	printf("Var not found");
+	printf("Var not found\n");
 	return (NULL);
 }
