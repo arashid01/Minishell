@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 18:58:53 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/18 19:13:31 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	skip_quoted_str(char *line, int *i, char quote_c)
 {
-	//i++;
 	while (line[*i])
 	{
 		if (quote_c == '"' && line[*i] == '\\' && line[*i + 1] == '"')
@@ -23,10 +22,7 @@ static void	skip_quoted_str(char *line, int *i, char quote_c)
 			continue;
 		}
 		if (line[*i] == quote_c)
-		{
-			i++;
 			break;
-		}
 		(*i)++;
 	}
 }
