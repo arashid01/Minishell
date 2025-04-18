@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 16:15:33 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/18 17:05:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,35 +170,40 @@ void	handle_word(char *line, int *i, t_status *status, t_token **token_list)
 	save_word(line, start, *i, token_list);
 }
 
-void	tokenize_line(char *line)
+void	get_tokens(char *line, t_status *status, t_token **token_list)
 {
-	int			i;
-	t_status	status;
-	t_token		*token_list;
+	int	i;
 
 	i = 0;
-	token_list = NULL;
-	init_status(&status);
 	while (line[i])
 	{
-		if (status.normal && (line[i] == '\'' || line[i] == '"'))
+		if (status->normal && (line[i] == '\'' || line[i] == '"'))
 		{
-			handle_quotes(line[i], &status);
+			handle_quotes(line[i], status);
 			i++;
 			continue;
 		}
-		else if (status.normal && line[i] == 32)
+		else if (status->normal && line[i] == 32)
 		{
 			i++;
 			continue;
 		}
-		else if (status.normal && is_operator(line[i]))
+		else if (status->normal && is_operator(line[i]))
 		{
-			handle_operator(line, &i, &token_list);
+			handle_operator(line, &i, token_list);
 			continue;
 		}
 		else
-			handle_word(line, &i, &status, &token_list);
+			handle_word(line, &i, status, token_list);
 	}
+}
+void	tokenize_line(char *line)
+{
+	t_status	status;
+	t_token		*token_list;
+
+	token_list = NULL;
+	init_status(&status);
+	get_tokens(line, &status, &token_list);
 	print_tokens(token_list);
 }
