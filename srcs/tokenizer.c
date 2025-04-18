@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 11:31:54 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/18 12:39:41 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	save_word(char *line, int start, int end, t_token **token_list)
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;
+	if (line[end - 1] == '\'' || line [end - 1] == '"')
+		end--;
 	len = end - start;
 	new->val = save_token(&line[start], len);
 	new->type = WORD;
