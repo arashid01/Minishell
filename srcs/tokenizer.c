@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 12:39:41 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/18 15:03:50 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_tokens(t_token *token)
 {
 	while (token)
 	{
-		printf("A token: [%s] -> %d \n", token->val, token->type);
+		ft_printf("A token: [%s] -> %d \n", token->val, token->type);
 		token = token->next;
 	}
 }
@@ -67,7 +67,7 @@ void	save_operator(char *line, int start, int end, t_token **token_list)
 	else
 	{
 		new->type = -1;
-		printf("Unknown operator"); //remove later and handle -1
+		ft_printf("Unknown operator"); //remove later and handle -1
 	}
 	if (*token_list == NULL)
 		*token_list = new;
@@ -112,6 +112,7 @@ void	init_status(t_status *status)
 	status->s_quote = 0;
 	status->d_quote = 0;
 }
+
 
 void	tokenize_line(char *line)
 {

@@ -8,7 +8,9 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
        ft_strnstr.c ft_atoi.c ft_strrchr.c ft_substr.c \
        ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
        ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
-       ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
+       ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
+	   ft_printf.c ft_putchar.c ft_puthex.c ft_uint.c \
+	   ft_putnbr.c ft_putptr.c ft_putstr.c 
 
 OBJS = ${SRCS:.c=.o}
 

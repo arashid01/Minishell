@@ -13,14 +13,14 @@ char	*expand_var(char **envp, char *var)
 		if ((ft_strncmp(envp[i], var, var_len) == 0) 
 				&& (envp[i][var_len] == '='))
 		{
-			printf("%s is found\n", var);
+			ft_printf("%s is found\n", var);
 			val = ft_strchr(envp[i], '=') + 1;
-			printf("%s\n", val);
+			ft_printf("%s\n", val);
 			return (val);
 		}
 		else
 			i++;
 	}
-	printf("Var not found\n");
+	ft_printf("Var not found\n");
 	return (NULL);
 }
