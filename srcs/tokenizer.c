@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 15:03:50 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/18 16:15:33 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,25 @@ void	print_tokens(t_token *token)
 	}
 }
 
+void	get_operator_type(t_token *token)
+{
+	if (ft_strncmp(token->val, ">>", 2) == 0)
+		token->type = REDIR_APPEND;
+	else if (ft_strncmp(token->val, "<<", 2) == 0)
+		token->type = HEREDOC;
+	else if (token->val[0] == '>')
+		token->type = REDIR_OUT;
+	else if (token->val[0] == '<')
+		token->type = REDIR_IN;
+	else if (token->val[0] == '|')
+		token->type = PIPE;
+	else
+	{
+		token->type = -1;
+		ft_printf("Unknown operator"); //remove later and handle -1
+	}
+}
+
 void	save_operator(char *line, int start, int end, t_token **token_list)
 {
 	t_token	*new;
@@ -54,21 +73,7 @@ void	save_operator(char *line, int start, int end, t_token **token_list)
 	len = end - start;
 	new->val = save_token(&line[start], len);
 	new->next = NULL;
-	if (ft_strncmp(new->val, ">>", 2) == 0)
-		new->type = REDIR_APPEND;
-	else if (ft_strncmp(new->val, "<<", 2) == 0)
-		new->type = HEREDOC;
-	else if (new->val[0] == '>')
-		new->type = REDIR_OUT;
-	else if (new->val[0] == '<')
-		new->type = REDIR_IN;
-	else if (new->val[0] == '|')
-		new->type = PIPE;
-	else
-	{
-		new->type = -1;
-		ft_printf("Unknown operator"); //remove later and handle -1
-	}
+	get_operator_type(new);
 	if (*token_list == NULL)
 		*token_list = new;
 	else
@@ -113,11 +118,61 @@ void	init_status(t_status *status)
 	status->d_quote = 0;
 }
 
+void	handle_quotes(char c, t_status *status)
+{
+	if (status->normal == 1 && c == '\'')
+		{
+			status->normal = 0;
+			status->s_quote = 1;
+		}
+		else if (status->s_quote == 1 && c == '\'')
+		{
+			status->normal = 1;
+			status->s_quote = 0;
+		}
+		else if (status->normal == 1 && c == '"')
+		{
+			status->normal = 0;
+			status->d_quote = 1;
+		}
+		else if (status->d_quote == 1 && c == '"')
+		{
+			status->normal = 1;
+			status->d_quote = 0;
+		}
+}
+
+void	handle_operator(char *line, int *i, t_token **token_list)
+{
+	int	start;
+
+	start = *i;
+	if ((line[*i] == '>' && line[*i + 1] == '>')
+		|| (line[*i] == '<' && line[*i + 1] == '<'))
+		(*i) += 2;
+	else
+		(*i)++;
+	save_operator(line, start, *i, token_list);
+}
+
+void	handle_word(char *line, int *i, t_status *status, t_token **token_list)
+{
+	int	start;
+
+	start = *i;
+	while (line[*i])
+	{
+		if (status->normal && (line[*i] == 32 || is_operator(line[*i])))
+			break ;
+		handle_quotes(line[*i], status);
+		(*i)++;
+	}
+	save_word(line, start, *i, token_list);
+}
 
 void	tokenize_line(char *line)
 {
 	int			i;
-	int			start;
 	t_status	status;
 	t_token		*token_list;
 
@@ -126,71 +181,24 @@ void	tokenize_line(char *line)
 	init_status(&status);
 	while (line[i])
 	{
-		if (status.normal == 1 && line[i] == '\'')
+		if (status.normal && (line[i] == '\'' || line[i] == '"'))
 		{
-			status.normal = 0;
-			status.s_quote = 1;
+			handle_quotes(line[i], &status);
 			i++;
 			continue;
 		}
-		else if (status.s_quote == 1 && line[i] == '\'')
-		{
-			status.normal = 1;
-			status.s_quote = 0;
-			i++;
-			continue;
-		}
-		else if (status.normal == 1 && line[i] == '"')
-		{
-			status.normal = 0;
-			status.d_quote = 1;
-			i++;
-			continue;
-		}
-		if (status.normal == 1 && line[i] == 32)
+		else if (status.normal && line[i] == 32)
 		{
 			i++;
 			continue;
 		}
-		if (status.normal == 1 && is_operator(line[i]))
+		else if (status.normal && is_operator(line[i]))
 		{
-			start = i;
-			if ((line[i] == '>' && line [i + 1] == '>') 
-				|| (line[i] == '<' && line [i + 1] == '<'))
-				i += 2;
-			else
-				i++;
-			save_operator(line, start, i, &token_list);
+			handle_operator(line, &i, &token_list);
 			continue;
 		}
-		start = i;
-		while (line[i])
-		{
-			if (status.normal == 1 && (line[i] == 32 || is_operator(line[i])))
-				break;
-			if (status.normal == 1 && line[i] == '\'')
-			{
-				status.normal = 0;
-				status.s_quote = 1;
-			}
-			else if (status.s_quote == 1 && line[i] == '\'')
-			{
-				status.normal = 1;
-				status.s_quote = 0;
-			}
-			else if (status.normal == 1 && line[i] == '"')
-			{
-				status.normal = 0;
-				status.d_quote = 1;
-			}
-			else if (status.d_quote == 1 && line[i] == '"')
-			{
-				status.normal = 1;
-				status.d_quote = 0;
-			}
-				i++;
-		}
-		save_word(line, start, i, &token_list);
+		else
+			handle_word(line, &i, &status, &token_list);
 	}
 	print_tokens(token_list);
 }
