@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/17 11:59:07 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/17 13:42:47 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ typedef struct s_token
 } t_token;
 
 char	*expand_var(char **envp, char *var);
+void	tokenize_line(char *line);
 
 #endif
