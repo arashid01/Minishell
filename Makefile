@@ -9,7 +9,10 @@ READLINE_DIR = /usr/local/Cellar/readline/8.2.13
 CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
 
-SRCS =  srcs/main.c srcs/expander.c srcs/tokenizer.c
+SRCS =  srcs/main.c srcs/expander.c srcs/tokenizer/tokenizer.c \
+		srcs/tokenizer/token_utils.c srcs/tokenizer/token_operator.c \
+		srcs/tokenizer/token_word.c srcs/tokenizer/token_quotes.c \
+
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME)
