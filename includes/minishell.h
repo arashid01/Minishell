@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 18:24:14 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/22 17:02:59 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@
 # define REDIR_APPEND 5 // >>
 # define HEREDOC 6 // <<
 
+typedef struct s_cmd
+{
+	int				input_fd;
+	int				output_fd;
+	int				has_pipe;
+	char			**argv;
+	struct	s_cmd	*next;
+}	t_cmd;
+
 typedef	struct s_status
 {
 	int	normal;
@@ -43,7 +52,7 @@ typedef struct s_token
 } t_token;
 
 // ************** tokenization **************
-void	tokenize_line(char *line);
+t_token	*tokenize_line(char *line);
 
 int		is_operator(char c);
 char	*save_token(char *start, int len);
@@ -55,8 +64,15 @@ void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
 // ************** expansion **************
 char	*expand_var(char **envp, char *var);
 
+// ************** parsing **************
+t_cmd	*parse_tokens(t_token *token_list);
+
+// ************** execution **************
+void execute_pipeline_recursive(t_cmd *cmd_list, char **envp);
+
 // remove later
 void	print_tokens(t_token *token);
+void	print_cmds(t_cmd *cmd);
 
 
 #endif

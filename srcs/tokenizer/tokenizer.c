@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/18 18:22:40 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/21 20:29:29 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	get_tokens(char *line, t_status *status, t_token **token_list)
 	}
 }
 
-void	tokenize_line(char *line)
+t_token	*tokenize_line(char *line)
 {
 	t_status	status;
 	t_token		*token_list;
@@ -55,5 +55,5 @@ void	tokenize_line(char *line)
 	token_list = NULL;
 	init_status(&status);
 	get_tokens(line, &status, &token_list);
-	print_tokens(token_list);
+	return (token_list);
 }
