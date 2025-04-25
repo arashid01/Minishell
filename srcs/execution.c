@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/04/22 17:12:33 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/25 16:12:35 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,90 +84,62 @@ char	*find_exe(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute_command_recursive(t_cmd *cmd, char **envp, int in_fd)
+void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 {
 	int		fds[2];
+	int		flags;
 	pid_t	pid;
 
 	if (!cmd)
 		return;
 	if (cmd->next && pipe(fds) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("pipe");
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("fork");
 	if (pid == 0)
 	{
+		if (cmd->infile)
+		{
+			in_fd = open(cmd->infile, O_RDONLY);
+			if (in_fd == -1)
+				ft_error(cmd->infile);
+		}	
 		dup2(in_fd, STDIN_FILENO);
-		if (cmd->next)
+		if (in_fd != STDIN_FILENO)
+			close(in_fd);
+		if (cmd->outfile)
+		{
+			if (cmd->append)
+				flags = O_WRONLY | O_CREAT | O_APPEND;
+			else
+				flags = O_WRONLY | O_CREAT | O_TRUNC;
+			out_fd = open(cmd->outfile, flags, 0644);
+			if (out_fd == -1)
+				ft_error(cmd->outfile);
+			dup2(out_fd, STDOUT_FILENO);
+			close(out_fd);
+		}
+		else if (cmd->next)
 		{
 			dup2(fds[1], STDOUT_FILENO);
 			close(fds[0]);
 			close(fds[1]);
 		}
-		close(in_fd);
 		execve(find_exe(cmd->argv[0], envp), cmd->argv, envp);
 		perror("execve");
 		exit(1);
 	} 
-	else
+	if (in_fd != STDIN_FILENO)
 		close(in_fd);
+	if (out_fd != STDOUT_FILENO)
+		close(out_fd);
 	if (cmd->next)
 	{
 		close(fds[1]);
-		execute_command_recursive(cmd->next, envp, fds[0]);
+		execute_command(cmd->next, envp, fds[0], STDOUT_FILENO);
 		close(fds[0]);
 	} 
 	else
 		waitpid(pid, NULL, 0);
-}
-
-void	execute_pipeline_recursive(t_cmd *cmd_list, char **envp)
-{
-	int		fds[2];
-	pid_t	pid;
-	
-	if (!cmd_list)
-		return;
-	if (cmd_list->next && pipe(fds) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		if (cmd_list->next)
-		{
-			dup2(fds[1], STDOUT_FILENO);
-			close(fds[0]);
-			close(fds[1]);
-		}
-		execve(find_exe(cmd_list->argv[0], envp), cmd_list->argv, envp);
-		perror("execve");
-		exit(1);
-	}
-	else
-	{
-		if (cmd_list->next) {
-			close(fds[1]);
-			execute_command_recursive(cmd_list->next, envp, fds[0]);
-			close(fds[0]);
-		}
-		else
-			waitpid(pid, NULL, 0);
-	}
-	if (!cmd_list->next)
-		while (wait(NULL) > 0);
 }

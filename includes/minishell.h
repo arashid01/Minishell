@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/04/22 17:02:59 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/25 16:13:23 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@
 
 typedef struct s_cmd
 {
-	int				input_fd;
-	int				output_fd;
+	int				append;
 	int				has_pipe;
+	char			*infile;
+	char			*outfile;
 	char			**argv;
 	struct	s_cmd	*next;
 }	t_cmd;
@@ -68,7 +69,7 @@ char	*expand_var(char **envp, char *var);
 t_cmd	*parse_tokens(t_token *token_list);
 
 // ************** execution **************
-void execute_pipeline_recursive(t_cmd *cmd_list, char **envp);
+void execute_command(t_cmd *cmd_list, char **envp, int in_fd, int out_fd);
 
 // remove later
 void	print_tokens(t_token *token);

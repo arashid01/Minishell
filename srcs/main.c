@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/04/22 17:03:37 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/25 16:23:15 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_minishell(char **envp)
 		print_tokens(token_list);
 		cmd_list = parse_tokens(token_list);
 		print_cmds(cmd_list);
-		execute_pipeline_recursive(cmd_list, envp);
+		execute_command(cmd_list, envp, STDIN_FILENO, STDOUT_FILENO);
 	}
 	if (line)
 		free(line);
