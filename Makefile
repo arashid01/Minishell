@@ -12,7 +12,7 @@ LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
 SRCS =  srcs/main.c srcs/expander.c srcs/tokenizer/tokenizer.c \
 		srcs/tokenizer/token_utils.c srcs/tokenizer/token_operator.c \
 		srcs/tokenizer/token_word.c srcs/tokenizer/token_quotes.c \
-		srcs/execution.c srcs/parser.c
+		srcs/execution/execution.c srcs/parser.c
 
 OBJS = $(SRCS:.c=.o)
 

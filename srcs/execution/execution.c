@@ -6,11 +6,11 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/04/25 16:12:35 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/09 15:24:55 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_error(const char *msg)
 {
@@ -139,7 +139,11 @@ void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 		close(fds[1]);
 		execute_command(cmd->next, envp, fds[0], STDOUT_FILENO);
 		close(fds[0]);
-	} 
+	}
 	else
+	{
 		waitpid(pid, NULL, 0);
+		if (cmd->infile && ft_strncmp(cmd->infile, "/tmp/.heredoc_tmp", 17) == 0)
+			unlink(cmd->infile);
+	}
 }
