@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 20:20:56 by amrashid          #+#    #+#             */
-/*   Updated: 2025/04/08 03:48:43 by amal             ###   ########.fr       */
+/*   Updated: 2025/04/10 04:36:06 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_putchar(int c);
+int		ft_putstr(char *str);
+int		ft_puthex(unsigned long num, int hexcase);
+int		ft_putptr(void *ptr);
+int		ft_putnbr(int nb);
+int		ft_uint(unsigned int nb);
+int		ft_printf(const char *format, ...);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
@@ -49,6 +57,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-char	*ft_strtok(char *str, const char *delimiter);
 
 #endif
