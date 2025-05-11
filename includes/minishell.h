@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/09 14:25:21 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/11 03:43:05 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,16 @@ t_cmd	*parse_tokens(t_token *token_list);
 // ************** execution **************
 void execute_command(t_cmd *cmd_list, char **envp, int in_fd, int out_fd);
 
+// ************** builtins **************
+int		is_builtin_cmd(t_cmd *cmd);
+int		execute_builtin(t_cmd *cmd);
+int		ft_echo(char **argv);
+
 // ************** error utils **************
 void	ft_error(const char *msg);
 
 // remove later
 void	print_tokens(t_token *token);
 void	print_cmds(t_cmd *cmd);
-
 
 #endif

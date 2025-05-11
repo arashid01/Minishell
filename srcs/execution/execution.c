@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/05/09 15:24:55 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/11 04:39:43 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,12 @@ void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 		return;
 	if (cmd->next && pipe(fds) == -1)
 		ft_error("pipe");
+	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
+	{
+		printf("\n\nHi from ft_echo\n\n");
+		execute_builtin(cmd);
+		return ;
+	}
 	pid = fork();
 	if (pid == -1)
 		ft_error("fork");

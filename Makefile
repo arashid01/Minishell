@@ -9,24 +9,42 @@ READLINE_DIR = /usr/local/Cellar/readline/8.2.13
 CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
 
-SRCS =  srcs/main.c srcs/expander.c srcs/tokenizer/tokenizer.c \
-		srcs/tokenizer/token_utils.c srcs/tokenizer/token_operator.c \
-		srcs/tokenizer/token_word.c srcs/tokenizer/token_quotes.c \
-		srcs/execution/execution.c srcs/parser.c
+SRC_PATH = srcs/
+OBJ_PATH = objs/
 
-OBJS = $(SRCS:.c=.o)
+SRC =	main.c \
+		expander.c \
+		parser.c \
+		tokenizer/tokenizer.c \
+		tokenizer/token_utils.c \
+		tokenizer/token_operator.c \
+		tokenizer/token_word.c \
+		tokenizer/token_quotes.c \
+		execution/execution.c \
+		execution/heredoc.c \
+		built_ins/built_in.c \
+		built_ins/ft_echo.c
+
+OBJ = $(SRC:.c=.o)
+
+SRCS = $(addprefix $(SRC_PATH), $(SRC))
+OBJS = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRCS))
 
 all: $(LIBFT) $(NAME)
 
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME)
 
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR) || exit 1
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_PATH)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 fclean: clean
