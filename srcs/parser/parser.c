@@ -6,11 +6,11 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/11 22:18:12 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/11 23:12:42 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	count_args(t_token *token)
 {
@@ -108,13 +108,6 @@ t_cmd	*parse_tokens(t_token *token_list)
 			cmd->append = 1;
 			token_list = token_list->next;
 		}
-		// else if (token_list->type == HEREDOC && token_list->next
-		// 			&& token_list->next->type == WORD)
-		// {
-		// 	printf("\n\n********Infile: %s*********\n\n", cmd->infile);
-		// 	heredoc_handler(token_list->next->val, &cmd->infile);
-		// 	token_list = token_list->next;
-		// }
 		else if (token_list->type == PIPE)
 		{
 			cmd->has_pipe = 1;

@@ -14,16 +14,18 @@ OBJ_PATH = objs/
 
 SRC =	main.c \
 		expander.c \
-		parser.c \
+		clean_utils.c \
 		tokenizer/tokenizer.c \
 		tokenizer/token_utils.c \
 		tokenizer/token_operator.c \
 		tokenizer/token_word.c \
 		tokenizer/token_quotes.c \
+		parser/parser.c \
 		execution/execution.c \
-		execution/heredoc.c \
+		execution/path_utils.c \
+		execution/processes.c \
 		built_ins/built_in.c \
-		built_ins/ft_echo.c
+		built_ins/ft_echo.c 
 
 OBJ = $(SRC:.c=.o)
 
