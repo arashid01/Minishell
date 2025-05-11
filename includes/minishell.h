@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/11 23:08:19 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/12 00:13:59 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*find_exe(char *cmd, char **envp);
 void	child_process(t_cmd *cmd, char **envp, int in_fd, int out_fd, int *fds);
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char **envp);
 void	execute_command(t_cmd *cmd_list, char **envp, int in_fd, int out_fd);
+void	handle_input_redirection(t_cmd *cmd, int *in_fd);
+void	handle_output_redirection(t_cmd *cmd, int *out_fd);
 
 // ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);

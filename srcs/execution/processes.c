@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/05/11 23:11:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/12 00:13:41 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	handle_input_redirection(t_cmd *cmd, int *in_fd)
+void	handle_input_redirection(t_cmd *cmd, int *in_fd)
 {
 	if (cmd->infile)
 	{
@@ -32,7 +32,7 @@ static void	handle_input_redirection(t_cmd *cmd, int *in_fd)
 	}
 }
 
-static void	handle_output_redirection(t_cmd *cmd, int *out_fd)
+void	handle_output_redirection(t_cmd *cmd, int *out_fd)
 {
 	int	flags;
 

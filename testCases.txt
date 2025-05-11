@@ -1,0 +1,56 @@
+**************** Basic Commands ****************
+
+echo hello world
+ls
+pwd
+
+**************** Simple Piping ****************
+
+ls | wc -l
+echo one two three | tr ' ' '\n'
+
+**************** Output Redirection ****************
+
+echo hello > out.txt
+ls -l > listing.txt
+
+**************** Input Redirection ****************
+
+cat < out.txt
+wc -w < out.txt
+
+**************** Pipe + Output Redirection ****************
+
+ls | grep minishell > filtered.txt
+cat filtered.txt
+
+**************** Pipe + Input Redirection ****************
+
+cat < out.txt | wc
+
+**************** Multiple Pipes ****************
+
+echo one two three | tr ' ' '\n' | grep o
+ls -l | grep .c | wc -l
+
+**************** Pipe + Both Redirections ****************
+
+cat < out.txt | tr a-z A-Z > upper.txt
+cat upper.txt
+
+**************** Append Redirection ****************
+
+echo first > log.txt
+echo second >> log.txt
+cat log.txt
+
+**************** Error Cases ****************
+
+cat < nonexistingfile
+ls > /not/a/real/path.txt
+
+**************** From Slack ****************
+
+$0
+$1
+$2
