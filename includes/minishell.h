@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/12 00:13:59 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/13 04:11:11 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	handle_output_redirection(t_cmd *cmd, int *out_fd);
 int		is_builtin_cmd(t_cmd *cmd);
 int		execute_builtin(t_cmd *cmd);
 int		ft_echo(char **argv);
+int		ft_pwd(t_cmd *cmd);
 
 // ************** error utils **************
 void	ft_error(const char *msg);

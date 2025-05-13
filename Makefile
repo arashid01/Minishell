@@ -25,7 +25,8 @@ SRC =	main.c \
 		execution/path_utils.c \
 		execution/processes.c \
 		built_ins/built_in.c \
-		built_ins/ft_echo.c 
+		built_ins/ft_echo.c \
+		built_ins/ft_pwd.c \
 
 OBJ = $(SRC:.c=.o)
 

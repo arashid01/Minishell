@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/13 03:45:35 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/13 04:10:31 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int	execute_builtin(t_cmd *cmd)
 		ft_echo(cmd->argv);
 		return (0);
 	}
-	// if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
-	// {
-	// 	ft_pwd();
-	// 	return (0);
-	// }
+	if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
+	{
+		ft_pwd(cmd);
+		return (0);
+	}
 	return (1);
 }
