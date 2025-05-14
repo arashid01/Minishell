@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/14 22:15:29 by nora             ###   ########.fr       */
+/*   Created: 2025/05/14 20:50:26 by nora              #+#    #+#             */
+/*   Updated: 2025/05/14 20:50:52 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_echo(t_cmd *cmd, t_shell *shell)
+int ft_env(t_cmd *cmd, t_shell *shell)
 {
-	int		i;
-	int		newline;
+	int	i;
 	
-	i = 1;
-	newline = 1;
-	if (cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
+	if (!cmd || !cmd->argv || !shell || !shell->envp)
 	{
-		newline = 0;
-		i++;
+        write(2, "minishell: env: invalid input or environment\n", 45);
+		return (1);
 	}
-	while (cmd->argv[i])
+	if (cmd->argv[1] != NULL)
+    {
+        write(2, "minishell: env: too many arguments\n", 35);
+		return (1);
+    }
+	i = 0;
+	while (shell->envp[i])
 	{
-		if (cmd->argv[i][0] == '$')
-			expand_var(shell, cmd->argv[i] + 1);
-		else
+		if (ft_strchr(shell->envp[i], '=') != NULL)
 		{
-			write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
+			write(1, shell->envp[i], ft_strlen(shell->envp[i]));
+			write(1, "\n", 1);
 		}
-		if (cmd->argv[i + 1])
-			write(1, " ", 1);
 		i++;
 	}
-	if (newline)
-		write(1, "\n", 1);
-	shell->exit_status = 0;
 	return (0);
 }

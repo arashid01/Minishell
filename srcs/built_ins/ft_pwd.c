@@ -1,43 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/14 22:15:29 by nora             ###   ########.fr       */
+/*   Created: 2025/05/12 18:07:50 by nora              #+#    #+#             */
+/*   Updated: 2025/05/12 18:08:29 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_echo(t_cmd *cmd, t_shell *shell)
+int ft_pwd(t_cmd *cmd, t_shell *shell)
 {
-	int		i;
-	int		newline;
-	
-	i = 1;
-	newline = 1;
-	if (cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
+	char	buffer[1024];
+
+	(void)shell;
+	if (!cmd || !cmd->argv)
 	{
-		newline = 0;
-		i++;
+		write(2, "minishell: pwd: invalid input\n", 30);
+		return (1);
 	}
-	while (cmd->argv[i])
+	 if (cmd->argv[1] != NULL)
+    {
+        write(2, "minishell: pwd: too many arguments\n", 35);
+        return (1);
+    }
+	if (getcwd(buffer, sizeof(buffer)) == NULL)
 	{
-		if (cmd->argv[i][0] == '$')
-			expand_var(shell, cmd->argv[i] + 1);
-		else
-		{
-			write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
-		}
-		if (cmd->argv[i + 1])
-			write(1, " ", 1);
-		i++;
+		perror("minishell: pwd: getcwd");
+		return (1);
 	}
-	if (newline)
-		write(1, "\n", 1);
-	shell->exit_status = 0;
+	write(1,buffer, ft_strlen(buffer));
+	write(1, "\n", 1);
 	return (0);
 }

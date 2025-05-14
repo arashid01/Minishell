@@ -7,7 +7,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 READLINE_DIR = /usr/local/Cellar/readline/8.2.13
 
 CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
-LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline
+LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline -lncurses
 
 SRC_PATH = srcs/
 OBJ_PATH = objs/
@@ -23,32 +23,40 @@ SRC =	main.c \
 		execution/execution.c \
 		execution/heredoc.c \
 		built_ins/built_in.c \
-		built_ins/ft_echo.c
+		built_ins/ft_echo.c \
+		built_ins/ft_cd.c \
+		built_ins/ft_pwd.c \
+		built_ins/ft_export.c \
+		built_ins/ft_env.c \
+		built_ins/ft_unset.c \
 
 OBJ = $(SRC:.c=.o)
 
 SRCS = $(addprefix $(SRC_PATH), $(SRC))
 OBJS = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRCS))
 
+# Make sure libft is built before anything else
 all: $(LIBFT) $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME)
+# Build final executable
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 
-
+# Compile libft if missing
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR) || exit 1
+	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	rm -rf $(OBJ_PATH)
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

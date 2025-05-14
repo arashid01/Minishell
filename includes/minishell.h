@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/11 03:43:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/14 22:05:01 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ typedef struct s_token
 	struct s_token	*next;
 } t_token;
 
+typedef struct s_shell
+{
+	char	**envp;
+	int		exit_status;
+}	t_shell;
+
 // ************** tokenization **************
 t_token	*tokenize_line(char *line);
 
@@ -63,18 +69,27 @@ void	handle_operator(char *line, int *i, t_token **token_list);
 void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
 
 // ************** expansion **************
-char	*expand_var(char **envp, char *var);
+char	**copy_env(char **envp);
+void	free_env(char **envp);
+char	*expand_var(t_shell *shell, const char *var);
+int		ft_setenv(const char *name, const char *value, t_shell *shell);
+int		ft_unsetenv(const char *name, t_shell *shell);
 
 // ************** parsing **************
 t_cmd	*parse_tokens(t_token *token_list);
 
 // ************** execution **************
-void execute_command(t_cmd *cmd_list, char **envp, int in_fd, int out_fd);
+void execute_command(t_cmd *cmd_list, t_shell *shell, int in_fd, int out_fd);
 
 // ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);
-int		execute_builtin(t_cmd *cmd);
-int		ft_echo(char **argv);
+int		execute_builtin(t_cmd *cmd, t_shell *shell);
+int ft_echo(t_cmd *cmd, t_shell *shell);
+int		ft_cd(t_cmd *cmd, t_shell *shell);
+int		ft_pwd(t_cmd *cmd, t_shell *shell);
+int		ft_export(t_cmd *cmd, t_shell *shell);
+int		ft_env(t_cmd *cmd, t_shell *shell);
+int		ft_unset(t_cmd *cmd, t_shell *shell);
 
 // ************** error utils **************
 void	ft_error(const char *msg);

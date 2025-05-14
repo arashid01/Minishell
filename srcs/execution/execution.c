@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/05/11 04:39:43 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/12 14:14:32 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*find_exe(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
+void	execute_command(t_cmd *cmd,t_shell *shell, int in_fd, int out_fd)
 {
 	int		fds[2];
 	int		flags;
@@ -97,7 +97,7 @@ void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
 	{
 		printf("\n\nHi from ft_echo\n\n");
-		execute_builtin(cmd);
+		execute_builtin(cmd, shell);
 		return ;
 	}
 	pid = fork();
@@ -132,7 +132,7 @@ void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 			close(fds[0]);
 			close(fds[1]);
 		}
-		execve(find_exe(cmd->argv[0], envp), cmd->argv, envp);
+		execve(find_exe(cmd->argv[0], shell->envp), cmd->argv, shell->envp);
 		perror("execve");
 		exit(1);
 	} 
@@ -143,7 +143,7 @@ void	execute_command(t_cmd *cmd, char **envp, int in_fd, int out_fd)
 	if (cmd->next)
 	{
 		close(fds[1]);
-		execute_command(cmd->next, envp, fds[0], STDOUT_FILENO);
+		execute_command(cmd->next, shell, fds[0], STDOUT_FILENO);
 		close(fds[0]);
 	}
 	else

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/09 15:20:09 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/12 14:17:40 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_minishell(char **envp)
+void	init_minishell(t_shell *shell)
 {
 	char	*line;
 	t_token	*token_list;
 	t_cmd	*cmd_list;
 	
-	(void)envp;
+	//(void)envp;
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -29,7 +29,7 @@ void	init_minishell(char **envp)
 		print_tokens(token_list);
 		cmd_list = parse_tokens(token_list);
 		print_cmds(cmd_list);
-		execute_command(cmd_list, envp, STDIN_FILENO, STDOUT_FILENO);
+		execute_command(cmd_list, shell, STDIN_FILENO, STDOUT_FILENO);
 	}
 	if (line)
 		free(line);
@@ -41,8 +41,16 @@ int main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
-	
-	init_minishell(envp);
-	
-	return (0);
+	t_shell shell;
+
+    shell.envp = copy_env(envp);
+    if (!shell.envp)
+    {
+        perror("minishell : failed to initialize environment");
+        return (1);
+    }
+    shell.exit_status = 0;
+    init_minishell(&shell);
+    free_env(shell.envp);
+    return (shell.exit_status);
 }

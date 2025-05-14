@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/11 04:39:11 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/14 22:05:15 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,38 @@ int	is_builtin_cmd(t_cmd *cmd)
 	}
 	return (0);
 }
-int	execute_builtin(t_cmd *cmd)
+int	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (1);
 	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
 	{
-		ft_echo(cmd->argv);
+		ft_echo(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "cd", -1) == 0)
+	{
+		ft_cd(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
+	{
+		ft_pwd(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "export", -1) == 0)
+	{
+		ft_export(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "env", -1) == 0)
+	{
+		ft_env(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "unset", -1) == 0)
+	{
+		ft_unset(cmd, shell);
 		return (0);
 	}
 	return (1);
