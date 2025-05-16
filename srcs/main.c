@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/12 14:17:40 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/16 04:51:04 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void	init_minishell(t_shell *shell)
 	char	*line;
 	t_token	*token_list;
 	t_cmd	*cmd_list;
-	
-	//(void)envp;
+
 	while (1)
 	{
 		line = readline("minishell$ ");

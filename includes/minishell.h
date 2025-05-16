@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/14 22:05:01 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/16 05:10:23 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,26 @@ int		ft_unsetenv(const char *name, t_shell *shell);
 t_cmd	*parse_tokens(t_token *token_list);
 
 // ************** execution **************
-void execute_command(t_cmd *cmd_list, t_shell *shell, int in_fd, int out_fd);
+void	execute_command(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd);
+void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, t_shell *shell);
+void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd, int *fds);
+void	handle_output_redirection(t_cmd *cmd, int *out_fd);
+void	handle_input_redirection(t_cmd *cmd, int *in_fd);
+char	*find_exe(char *cmd, char **envp);
 
 // ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);
 int		execute_builtin(t_cmd *cmd, t_shell *shell);
-int ft_echo(t_cmd *cmd, t_shell *shell);
+int		ft_echo(t_cmd *cmd, t_shell *shell);
 int		ft_cd(t_cmd *cmd, t_shell *shell);
 int		ft_pwd(t_cmd *cmd, t_shell *shell);
 int		ft_export(t_cmd *cmd, t_shell *shell);
 int		ft_env(t_cmd *cmd, t_shell *shell);
 int		ft_unset(t_cmd *cmd, t_shell *shell);
 
-// ************** error utils **************
+// ************** utils **************
 void	ft_error(const char *msg);
+void	free_arr(char **arr);
 
 // remove later
 void	print_tokens(t_token *token);

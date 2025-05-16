@@ -6,11 +6,11 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/09 15:16:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/11 23:12:42 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	count_args(t_token *token)
 {
@@ -80,7 +80,7 @@ t_cmd	*parse_tokens(t_token *token_list)
 	if (!cmd)
 		return (NULL);
 	cmd->argv = build_argv(&token_list);
-	while (token_list && token_list->next->type != PIPE)
+	while (token_list)
 	{
 		if (token_list->type == HEREDOC
 			&& token_list->next && token_list->next->type == WORD)
@@ -88,29 +88,34 @@ t_cmd	*parse_tokens(t_token *token_list)
 			handle_heredoc(token_list->next->val, &cmd->infile);
 			token_list = token_list->next->next;
 		}
-		else if (token_list->type == REDIR_IN
-			&& token_list->next && token_list->next->type == WORD)
+		else if (token_list->type == REDIR_IN && token_list->next
+			&& token_list->next->type == WORD)
 		{
 			cmd->infile = ft_strdup(token_list->next->val);
-			token_list = token_list->next->next;
-		}
-		else if ((token_list->type == REDIR_OUT || token_list->type == REDIR_APPEND)
-			&& token_list->next && token_list->next->type == WORD)
-		{
-			cmd->outfile = ft_strdup(token_list->next->val);
-			cmd->append = (token_list->type == REDIR_APPEND);
-			token_list = token_list->next->next;
-		}
-		else
-		{
 			token_list = token_list->next;
 		}
-	}
-	if (token_list && token_list->type == PIPE)
-	{
-		cmd->has_pipe = 1;
-		token_list = token_list->next;
-		cmd->next = parse_tokens(token_list);
+		else if (token_list->type == REDIR_OUT && token_list->next
+					&& token_list->next->type == WORD)
+		{
+			cmd->outfile = ft_strdup(token_list->next->val);
+			cmd->append = 0;
+			token_list = token_list->next;
+		}
+		else if (token_list->type == REDIR_APPEND && token_list->next
+					&& token_list->next->type == WORD)
+		{
+			cmd->outfile = ft_strdup(token_list->next->val);
+			cmd->append = 1;
+			token_list = token_list->next;
+		}
+		else if (token_list->type == PIPE)
+		{
+			cmd->has_pipe = 1;
+			token_list = token_list->next;
+			cmd->next = parse_tokens(token_list);
+			break ;
+		}
+		token_list =  token_list->next;
 	}
 	return (cmd);
 }
@@ -131,43 +136,3 @@ void print_cmds(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-//This was the logic in the parse command function after cmd init(backup)
-	/*while (token_list)
-	{
-		if (token_list->type == REDIR_IN && token_list->next
-			&& token_list->next->type == WORD)
-		{
-			cmd->infile = ft_strdup(token_list->next->val);
-			token_list = token_list->next;
-		}
-		else if (token_list->type == REDIR_OUT && token_list->next
-					&& token_list->next->type == WORD)
-		{
-			cmd->outfile = ft_strdup(token_list->next->val);
-			cmd->append = 0;
-			token_list = token_list->next;
-		}
-		else if (token_list->type == REDIR_APPEND && token_list->next
-					&& token_list->next->type == WORD)
-		{
-			cmd->outfile = ft_strdup(token_list->next->val);
-			cmd->append = 1;
-			token_list = token_list->next;
-		}
-		else if (token_list->type == HEREDOC && token_list->next
-					&& token_list->next->type == WORD)
-		{
-			printf("\n\n********Infile: %s*********\n\n", cmd->infile);
-			heredoc_handler(token_list->next->val, &cmd->infile);
-			token_list = token_list->next;
-		}
-		else if (token_list->type == PIPE)
-		{
-			cmd->has_pipe = 1;
-			token_list = token_list->next;
-			cmd->next = parse_tokens(token_list);
-			break ;
-		}
-		token_list =  token_list->next;
-	}
-	return (cmd);*/
