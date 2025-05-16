@@ -58,3 +58,5 @@ $? (not handled)
 $0 (not handled)
 $1 (not handled)
 $2 (not handled)
+
+*Running a command using an absolute path is not handled
