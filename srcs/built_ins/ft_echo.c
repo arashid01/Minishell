@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/14 22:15:29 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/17 13:23:54 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ int	ft_echo(t_cmd *cmd, t_shell *shell)
 {
 	int		i;
 	int		newline;
-	
+
 	i = 1;
 	newline = 1;
-	if (cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
+	while (cmd->argv[i] && ft_strncmp(cmd->argv[i], "-n", 2) == 0)
 	{
+		// make sure all characters after '-' are 'n'
+		int j = 2;
+		while (cmd->argv[i][j] == 'n')
+			j++;
+		if (cmd->argv[i][j] != '\0')
+			break;
 		newline = 0;
 		i++;
 	}
@@ -29,9 +35,7 @@ int	ft_echo(t_cmd *cmd, t_shell *shell)
 		if (cmd->argv[i][0] == '$')
 			expand_var(shell, cmd->argv[i] + 1);
 		else
-		{
 			write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
-		}
 		if (cmd->argv[i + 1])
 			write(1, " ", 1);
 		i++;

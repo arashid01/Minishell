@@ -31,6 +31,7 @@ SRC =	main.c \
 		built_ins/ft_export.c \
 		built_ins/ft_env.c \
 		built_ins/ft_unset.c \
+		built_ins/ft_exit.c \
 
 OBJ = $(SRC:.c=.o)
 

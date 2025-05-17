@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/14 22:05:15 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/17 10:00:46 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 	if (ft_strncmp(cmd->argv[0], "unset", -1) == 0)
 	{
 		ft_unset(cmd, shell);
+		return (0);
+	}
+	if (ft_strncmp(cmd->argv[0], "exit", -1) == 0)
+	{
+		ft_exit(cmd, shell);
 		return (0);
 	}
 	return (1);

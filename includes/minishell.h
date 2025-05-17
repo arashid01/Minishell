@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/16 05:10:23 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/17 10:22:55 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		ft_pwd(t_cmd *cmd, t_shell *shell);
 int		ft_export(t_cmd *cmd, t_shell *shell);
 int		ft_env(t_cmd *cmd, t_shell *shell);
 int		ft_unset(t_cmd *cmd, t_shell *shell);
-
+void	ft_exit(t_cmd *cmd, t_shell *shell);
 // ************** utils **************
 void	ft_error(const char *msg);
 void	free_arr(char **arr);
