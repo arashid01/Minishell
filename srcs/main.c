@@ -6,11 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 05:28:22 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 06:13:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+t_shell	g_shell;
 
 void	init_minishell(t_shell *shell)
 {
@@ -22,6 +24,7 @@ void	init_minishell(t_shell *shell)
 
 	while (1)
 	{
+		setup_parent_signals();
 		line = readline("minishell$ ");
 		if (!line)
 			break ;

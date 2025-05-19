@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 05:16:52 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 06:41:21 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void execute_single_command(t_cmd *cmd, t_shell *shell, int in_fd, int ou
 
 void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd, int *fds)
 {
+	setup_child_signals();
 	if (cmd->next)
 	{
 		close(fds[0]);
@@ -81,6 +82,8 @@ void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd, int *fds)
 
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, t_shell *shell)
 {
+	int	status;
+
 	if (in_fd != STDIN_FILENO)
 		close(in_fd);
 	if (cmd->next)

@@ -15,6 +15,7 @@ OBJ_PATH = objs/
 SRC =	main.c \
 		expander.c \
 		clean_utils.c \
+		signals.c \
 		tokenizer/tokenizer.c \
 		tokenizer/token_utils.c \
 		tokenizer/token_operator.c \

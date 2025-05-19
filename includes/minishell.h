@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 03:46:10 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 06:13:35 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
+extern t_shell	g_shell;
+
 // ************** tokenization **************
 t_token	*tokenize_line(char *line);
 
@@ -100,6 +102,11 @@ void	ft_exit(t_cmd *cmd, t_shell *shell);
 // ************** utils **************
 void	ft_error(const char *msg);
 void	free_arr(char **arr);
+
+// ************** signals **************
+void	setup_parent_signals(void);
+void	setup_child_signals(void);
+void	setup_heredoc_signals(void);
 
 // remove later
 void	print_tokens(t_token *token);

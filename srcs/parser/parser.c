@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 05:50:26 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 06:26:53 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**build_argv(t_token **token)
 	return (argv);
 }
 
-void	handle_heredoc(const char *delimiter, char **temp_file)
+/*void	handle_heredoc(const char *delimiter, char **temp_file)
 {
 	int		fd;
 	char	*line;
@@ -70,6 +70,59 @@ void	handle_heredoc(const char *delimiter, char **temp_file)
 		free(line);
 	}
 	close(fd);
+}*/
+
+void	handle_heredoc(const char *delimiter, char **temp_file)
+{
+	int		fd;
+	int		pid;
+	char	*line;
+
+	*temp_file = ft_strdup("/tmp/.heredoc_tmp");
+	if (!*temp_file)
+		ft_error("heredoc");
+
+	pid = fork();
+	if (pid < 0)
+		ft_error("fork");
+
+	if (pid == 0)
+	{
+		// Child: set heredoc-specific signal behavior
+		setup_heredoc_signals();
+
+		fd = open(*temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+			ft_error("open");
+
+		while (1)
+		{
+			line = readline("> ");
+			if (!line || ft_strncmp(line, delimiter, -1) == 0)
+			{
+				free(line);
+				break;
+			}
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
+		close(fd);
+		exit(0);
+	}
+	else
+	{
+		int status;
+
+		// Parent: wait and check if heredoc was interrupted
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			unlink(*temp_file);
+			free(*temp_file);
+			*temp_file = NULL;
+		}
+	}
 }
 
 t_cmd	*parse_tokens(t_token *token_list)
