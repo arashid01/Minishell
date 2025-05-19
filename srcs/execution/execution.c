@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/05/16 05:04:40 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 04:54:28 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	execute_command(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd)
 
 	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
 	{
-		printf("\n\nHi custom built-in!\n\n");
 		handle_builtin_cmd(cmd, shell, in_fd, out_fd);
 		return ;
 	}

@@ -63,7 +63,7 @@ $2 (not handled)
 **************** echo ****************
 echo Hello World
 echo -n Hello World
-echo -nnn Hello World (Working, but double check)
+echo -nnn Hello World
 echo "" ""
 echo Hello     World
 echo -n -n Test

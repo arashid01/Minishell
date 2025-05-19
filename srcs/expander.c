@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 03:43:43 by amal              #+#    #+#             */
-/*   Updated: 2025/05/14 22:24:32 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/18 15:35:16 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,35 +123,34 @@ int ft_setenv(const char *name, const char *value, t_shell *shell)
 
 int ft_unsetenv(const char *name, t_shell *shell)
 {
-	int i;
-	int j;
-	size_t name_len;
-	int count;
-	char **new_envp;
+	int		i;
+	int		j;
+	int		count;
+	char	**new_envp;
+	size_t	name_len;
 
 	i = 0;
 	j = 0;
 	count = 0;
 	if (!name || !shell || !shell->envp)
-        return (1);
-
-    name_len = ft_strlen(name);
-    while (shell->envp[count])
-        count++;
-    new_envp = malloc(sizeof(char *) * count);
-    if (!new_envp)
-        return (1);
-    while (shell->envp[i])
-    {
-        if (!ft_strncmp(shell->envp[i], name, name_len) &&
-            shell->envp[i][name_len] == '=')
-            free(shell->envp[i]);
-        else
-            new_envp[j++] = shell->envp[i];
-        i++;
-    }
-    new_envp[j] = NULL;
-    free(shell->envp);
-    shell->envp = new_envp;
-    return (0);
+		return (1);
+	name_len = ft_strlen(name);
+	while (shell->envp[count])
+		count++;
+	new_envp = malloc(sizeof(char *) * count);
+	if (!new_envp)
+		return (1);
+	while (shell->envp[i])
+	{
+		if (!ft_strncmp(shell->envp[i], name, name_len) &&
+			shell->envp[i][name_len] == '=')
+			free(shell->envp[i]);
+		else
+			new_envp[j++] = shell->envp[i];
+		i++;
+	}
+	new_envp[j] = NULL;
+	free(shell->envp);
+	shell->envp = new_envp;
+	return (0);
 }

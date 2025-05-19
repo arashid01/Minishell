@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/16 04:51:04 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/19 05:28:22 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_minishell(t_shell *shell)
 	char	*line;
 	t_token	*token_list;
 	t_cmd	*cmd_list;
+
+	(void)shell;
 
 	while (1)
 	{
@@ -42,14 +44,14 @@ int main(int argc, char **argv, char **envp)
 	(void) argv;
 	t_shell shell;
 
-    shell.envp = copy_env(envp);
-    if (!shell.envp)
-    {
-        perror("minishell : failed to initialize environment");
-        return (1);
-    }
-    shell.exit_status = 0;
-    init_minishell(&shell);
-    free_env(shell.envp);
-    return (shell.exit_status);
+	shell.envp = copy_env(envp);
+	if (!shell.envp)
+	{
+		perror("minishell : failed to initialize environment");
+		return (1);
+	}
+	shell.exit_status = 0;
+	init_minishell(&shell);
+	free_env(shell.envp);
+	return (shell.exit_status);
 }
