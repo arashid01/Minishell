@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 06:41:21 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 18:25:05 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd, int *fds)
 
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, t_shell *shell)
 {
-	int	status;
+	int	exit_status;
 
 	if (in_fd != STDIN_FILENO)
 		close(in_fd);
@@ -94,7 +94,18 @@ void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, t_shell *shell)
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &exit_status, 0);
+		if (WIFEXITED(exit_status))
+			shell->exit_status = WEXITSTATUS(exit_status);
+		else if (WIFSIGNALED(exit_status))
+		{
+			shell->exit_status = 128 + WTERMSIG(exit_status);
+			if (WTERMSIG(exit_status) == SIGINT)
+				write(STDOUT_FILENO, "\n", 1);
+			else if (WTERMSIG(exit_status) == SIGQUIT)
+				write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		}
+		printf("\nExit Status: %d\n", shell->exit_status);
 		if (cmd->infile && ft_strncmp(cmd->infile, "/tmp/.heredoc_tmp", 17) == 0)
 			unlink(cmd->infile);
 	}

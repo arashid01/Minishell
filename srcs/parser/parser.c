@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 06:26:53 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 06:47:27 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,37 +45,11 @@ char	**build_argv(t_token **token)
 	return (argv);
 }
 
-/*void	handle_heredoc(const char *delimiter, char **temp_file)
-{
-	int		fd;
-	char	*line;
-
-	line = NULL;
-	*temp_file = ft_strdup("/tmp/.heredoc_tmp");
-	if (!*temp_file)
-		ft_error("heredoc");
-	fd = open (*temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		ft_error("heredoc");
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strncmp(line, delimiter, -1) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	close(fd);
-}*/
-
 void	handle_heredoc(const char *delimiter, char **temp_file)
 {
 	int		fd;
 	int		pid;
+	int		status;
 	char	*line;
 
 	*temp_file = ft_strdup("/tmp/.heredoc_tmp");
@@ -88,7 +62,6 @@ void	handle_heredoc(const char *delimiter, char **temp_file)
 
 	if (pid == 0)
 	{
-		// Child: set heredoc-specific signal behavior
 		setup_heredoc_signals();
 
 		fd = open(*temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -112,9 +85,6 @@ void	handle_heredoc(const char *delimiter, char **temp_file)
 	}
 	else
 	{
-		int status;
-
-		// Parent: wait and check if heredoc was interrupted
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		{
@@ -143,7 +113,8 @@ t_cmd	*parse_tokens(t_token *token_list)
 			handle_heredoc(token_list->next->val, &cmd->infile);
 			token_list = token_list->next->next;
 		}
-		else if ((token_list->type == REDIR_IN || token_list->type == REDIR_OUT || token_list->type == REDIR_APPEND) && token_list->next && token_list->next->type == WORD)
+		else if ((token_list->type == REDIR_IN || token_list->type == REDIR_OUT
+					|| token_list->type == REDIR_APPEND) && token_list->next && token_list->next->type == WORD)
 		{
 			if (token_list->type == REDIR_IN)
 				cmd->infile = ft_strdup(token_list->next->val);
