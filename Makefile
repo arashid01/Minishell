@@ -13,7 +13,6 @@ SRC_PATH = srcs/
 OBJ_PATH = objs/
 
 SRC =	main.c \
-		expander.c \
 		clean_utils.c \
 		signals.c \
 		tokenizer/tokenizer.c \
@@ -21,6 +20,8 @@ SRC =	main.c \
 		tokenizer/token_operator.c \
 		tokenizer/token_word.c \
 		tokenizer/token_quotes.c \
+		expansion/expander.c \
+		expansion/set_env.c \
 		parser/parser.c \
 		execution/execution.c \
 		execution/path_utils.c \

@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 06:13:07 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 20:55:40 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_minishell(t_shell *shell)
 		if (!line)
 			break ;
 		add_history(line);
-		token_list = tokenize_line(line);
+		token_list = tokenize_line(line, shell);
 		print_tokens(token_list);
 		cmd_list = parse_tokens(token_list);
 		print_cmds(cmd_list);

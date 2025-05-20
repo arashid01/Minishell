@@ -1,43 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 03:43:43 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 06:41:01 by amal             ###   ########.fr       */
+/*   Created: 2025/05/20 20:22:48 by amal              #+#    #+#             */
+/*   Updated: 2025/05/20 20:23:36 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-char	*expand_var(t_shell *shell, const char *var)
-{
-	int		i;
-	int		var_len;
-	char	*val;
-
-	if (!var || !shell || !shell->envp)
-		return (NULL);
-	i = 0;
-	var_len = ft_strlen(var);
-	while (shell->envp[i])
-	{
-		if ((ft_strncmp(shell->envp[i], var, var_len) == 0) 
-				&& (shell->envp[i][var_len] == '='))
-		{
-			ft_printf("%s is found\n", var);
-			val = ft_strchr(shell->envp[i], '=') + 1;
-			ft_printf("%s\n", val);
-			return (val);
-		}
-		else
-			i++;
-	}
-	ft_printf("Var not found\n");
-	return (NULL);
-}
+#include "../../includes/minishell.h"
 
 char **copy_env(char **envp)
 {

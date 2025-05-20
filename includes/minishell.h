@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/20 07:17:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 20:56:58 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ typedef struct s_shell
 extern t_shell	g_shell;
 
 // ************** tokenization **************
-t_token	*tokenize_line(char *line);
-
+t_token	*tokenize_line(char *line, t_shell *shell);
 int		is_operator(char c);
 char	*save_token(char *start, int len);
-
 void	handle_quotes(char c, t_status *status);
 void	handle_operator(char *line, int *i, t_token **token_list);
-void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
+void	handle_word(char *line, int *i, t_status *status, t_token **token_list, t_shell *shell);
 
 // ************** expansion **************
 char	**copy_env(char **envp);
@@ -77,6 +75,7 @@ void	free_env(char **envp);
 char	*expand_var(t_shell *shell, const char *var);
 int		ft_setenv(const char *name, const char *value, t_shell *shell);
 int		ft_unsetenv(const char *name, t_shell *shell);
+char	*expand_exit_status(char *str, int exit_status);
 
 // ************** parsing **************
 t_cmd	*parse_tokens(t_token *token_list);

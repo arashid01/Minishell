@@ -6,26 +6,28 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/05/19 04:54:28 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 19:28:45 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	handle_builtin_cmd(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd)
+static int	handle_builtin_cmd(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd)
 {
 	int	saved_stdin;
 	int	saved_stdout;
+	int	exit_status;
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	handle_input_redirection(cmd, &in_fd);
 	handle_output_redirection(cmd, &out_fd);
-	execute_builtin(cmd, shell);
+	exit_status = execute_builtin(cmd, shell);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
+	return (exit_status);
 }
 
 void	execute_command(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd)
@@ -40,7 +42,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell, int in_fd, int out_fd)
 
 	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
 	{
-		handle_builtin_cmd(cmd, shell, in_fd, out_fd);
+		shell->exit_status = handle_builtin_cmd(cmd, shell, in_fd, out_fd);
 		return ;
 	}
 	pid = fork();

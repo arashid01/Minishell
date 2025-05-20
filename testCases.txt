@@ -107,3 +107,11 @@ exit 256
 exit -1
 exit abc
 exit 1 2
+
+**************** signals ****************
+
+sleep 5	+ Ctrl+C	exit_status: 130
+cat + Ctrl+\		exit_status: 131
+exit 42				exit_status: 42
+false				exit_status: 1
+true				exit_status: 0

@@ -6,20 +6,20 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/04/21 20:29:29 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 20:54:17 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_status(t_status *status)
+static void	init_status(t_status *status)
 {
 	status->normal = 1;
 	status->s_quote = 0;
 	status->d_quote = 0;
 }
 
-void	get_tokens(char *line, t_status *status, t_token **token_list)
+static void	get_tokens(char *line, t_status *status, t_token **token_list, t_shell *shell)
 {
 	int	i;
 
@@ -43,17 +43,17 @@ void	get_tokens(char *line, t_status *status, t_token **token_list)
 			continue;
 		}
 		else
-			handle_word(line, &i, status, token_list);
+			handle_word(line, &i, status, token_list, shell);
 	}
 }
 
-t_token	*tokenize_line(char *line)
+t_token	*tokenize_line(char *line, t_shell *shell)
 {
 	t_status	status;
 	t_token		*token_list;
 
 	token_list = NULL;
 	init_status(&status);
-	get_tokens(line, &status, &token_list);
+	get_tokens(line, &status, &token_list, shell);
 	return (token_list);
 }

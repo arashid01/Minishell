@@ -6,16 +6,17 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/04/23 03:33:48 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 20:52:18 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	save_word(char *line, int start, int end, t_token **token_list)
+static void	save_word(char *line, int start, int end, t_token **token_list, t_shell *shell)
 {
 	t_token	*new;
 	t_token	*runner;
+	char	*str;
 	int		len;
 	
 	new = malloc(sizeof(t_token));
@@ -24,7 +25,9 @@ static void	save_word(char *line, int start, int end, t_token **token_list)
 	if (line[end - 1] == '\'' || line [end - 1] == '"')
 		end--;
 	len = end - start;
-	new->val = save_token(&line[start], len);
+	str = save_token(&line[start], len);
+	new->val = expand_exit_status(str, shell->exit_status);
+	free(str);
 	new->type = WORD;
 	new->next = NULL;
 	if (*token_list == NULL)
@@ -38,7 +41,7 @@ static void	save_word(char *line, int start, int end, t_token **token_list)
 	}
 }
 
-void	handle_word(char *line, int *i, t_status *status, t_token **token_list)
+void	handle_word(char *line, int *i, t_status *status, t_token **token_list, t_shell *shell)
 {
 	int	start;
 
@@ -50,5 +53,5 @@ void	handle_word(char *line, int *i, t_status *status, t_token **token_list)
 		handle_quotes(line[*i], status);
 		(*i)++;
 	}
-	save_word(line, start, *i, token_list);
+	save_word(line, start, *i, token_list, shell);
 }

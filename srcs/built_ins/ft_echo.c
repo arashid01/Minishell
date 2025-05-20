@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/17 13:23:54 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/20 20:10:29 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_echo(t_cmd *cmd, t_shell *shell)
 	newline = 1;
 	while (cmd->argv[i] && ft_strncmp(cmd->argv[i], "-n", 2) == 0)
 	{
-		// make sure all characters after '-' are 'n'
 		int j = 2;
 		while (cmd->argv[i][j] == 'n')
 			j++;
