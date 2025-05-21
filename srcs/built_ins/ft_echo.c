@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/20 20:10:29 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 23:50:16 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	ft_echo(t_cmd *cmd, t_shell *shell)
 	}
 	while (cmd->argv[i])
 	{
-		if (cmd->argv[i][0] == '$')
-			expand_var(shell, cmd->argv[i] + 1);
-		else
+		/*if (cmd->argv[i][0] == '$')
+			expand_var(shell, cmd->argv[i] + 1);*/
+	//	else
 			write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
 		if (cmd->argv[i + 1])
 			write(1, " ", 1);

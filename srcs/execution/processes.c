@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/05/20 20:02:33 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 23:24:16 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, t_shell *shell)
 			if (WTERMSIG(exit_status) == SIGINT)
 				write(STDOUT_FILENO, "\n", 1);
 			else if (WTERMSIG(exit_status) == SIGQUIT)
-				write(STDOUT_FILENO, "Quit: 3\n", 20);
+				write(STDOUT_FILENO, "Quit: 3\n", 8);
 		}
 		printf("\nExit Status: %d\n", shell->exit_status);
 		if (cmd->infile && ft_strncmp(cmd->infile, "/tmp/.heredoc_tmp", 17) == 0)

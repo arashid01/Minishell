@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:38 by amal              #+#    #+#             */
-/*   Updated: 2025/05/20 20:56:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/20 23:22:05 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*expand_var(t_shell *shell, const char *var);
 int		ft_setenv(const char *name, const char *value, t_shell *shell);
 int		ft_unsetenv(const char *name, t_shell *shell);
 char	*expand_exit_status(char *str, int exit_status);
+char	*expand_variables(t_shell *shell, char *input, int exit_status);
 
 // ************** parsing **************
 t_cmd	*parse_tokens(t_token *token_list);
