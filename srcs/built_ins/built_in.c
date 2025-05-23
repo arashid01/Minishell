@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/20 19:57:39 by amal             ###   ########.fr       */
-=======
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/17 10:00:46 by nora             ###   ########.fr       */
->>>>>>> 17ac939e4a79c7effc42b1f94a297570d742bc72
+/*   Updated: 2025/05/23 17:26:00 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +40,6 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (1);
-<<<<<<< HEAD
-
-	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
-		return (ft_echo(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "cd", -1) == 0)
-		return (ft_cd(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
-		return (ft_pwd(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "export", -1) == 0)
-		return (ft_export(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "env", -1) == 0)
-		return (ft_env(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "unset", -1) == 0)
-		return (ft_unset(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "exit", -1) == 0)
-		ft_exit(cmd, shell);
-
-=======
 	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
 	{
 		ft_echo(cmd, shell);
@@ -100,6 +75,5 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 		ft_exit(cmd, shell);
 		return (0);
 	}
->>>>>>> 17ac939e4a79c7effc42b1f94a297570d742bc72
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:50:26 by nora              #+#    #+#             */
-/*   Updated: 2025/05/14 20:50:52 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/23 17:26:41 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int ft_env(t_cmd *cmd, t_shell *shell)
 	
 	if (!cmd || !cmd->argv || !shell || !shell->envp)
 	{
-        write(2, "minishell: env: invalid input or environment\n", 45);
+		write(2, "minishell: env: invalid input or environment\n", 45);
 		return (1);
 	}
 	if (cmd->argv[1] != NULL)
-    {
-        write(2, "minishell: env: too many arguments\n", 35);
+	{
+		write(2, "minishell: env: too many arguments\n", 35);
 		return (1);
-    }
+	}
 	i = 0;
 	while (shell->envp[i])
 	{

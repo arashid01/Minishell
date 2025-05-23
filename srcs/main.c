@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/21 11:28:19 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/23 17:29:57 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_minishell(t_shell *shell)
 	char	*line;
 	t_token	*token_list;
 	t_cmd	*cmd_list;
-	char *expanded_line;
+	char	*expanded_line;
 	(void)shell;
 
 	while (1)
@@ -30,13 +30,13 @@ void	init_minishell(t_shell *shell)
 			break ;
 		add_history(line);
 		expanded_line = expand_variables(shell, line, shell->exit_status);
-    	free(line);
-    	if (!expanded_line)
-    	{
+		free(line);
+		if (!expanded_line)
+		{
 			ft_printf("minishell: error expanding variables\n");
-        	continue ;
-    	}
-    	line = expanded_line;
+			continue ;
+		}
+		line = expanded_line;
 		token_list = tokenize_line(line, shell);
 		print_tokens(token_list);
 		cmd_list = parse_tokens(token_list);
